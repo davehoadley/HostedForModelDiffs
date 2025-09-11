@@ -27,6 +27,11 @@ jobs:
         uses: matlab-actions/run-command@v2
         with:
           command: disp("hello Dave")
+      - name: Install git
+        run: |
+            echo "Installing git..."
+            sudo apt-get install git
+            echo "done!"
       - name: Check project source control integration
         uses: matlab-actions/run-command@v2
         with:
