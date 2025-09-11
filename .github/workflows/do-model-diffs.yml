@@ -30,4 +30,4 @@ jobs:
       - name: Check project source control integration
         uses: matlab-actions/run-command@v2
         with:
-          command: cp = currentProject; disp(cp.SourceControlIntegration)
+          command: cp = openProject(pwd); disp(cp.SourceControlIntegration)
