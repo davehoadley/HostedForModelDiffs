@@ -32,7 +32,6 @@ jobs:
             echo "Installing git..."
             sudo apt-get install git
             echo "done!"
-      - name: 
       - name: Check project source control integration
         uses: matlab-actions/run-command@v2
         with:
