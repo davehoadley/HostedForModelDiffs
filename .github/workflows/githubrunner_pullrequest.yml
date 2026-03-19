@@ -4,15 +4,15 @@ name: PullRequest GitHub Runner - Diff to Ancestor, Publish and attach Report
 on:
   # Triggers the workflow on pull request events but only for the main branch
 
-  pull_request:
-    branches: [main]
-    types:
-      - opened
-      - edited
-      - reopened
+  push:
+    branches: [dev]
+    # types:
+    #   - opened
+    #   - edited
+    #   - reopened
   
 permissions: 
-  pull-requests: write
+  # pull-requests: write
   contents: read
   pages: write
 
