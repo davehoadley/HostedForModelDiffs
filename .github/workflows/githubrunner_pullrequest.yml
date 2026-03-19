@@ -43,7 +43,15 @@ jobs:
         uses: matlab-actions/run-command@v1
         with:
           command: branch ="${{ github.head_ref }}", diffGitHub_pullrequest(branch)
-      - name: Upload Comparison Reports
+      # Configure GitHub Pages to accept your artifact uploads
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      # Upload diff report to your repository
+      - name: Upload pages
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: diffreports # Upload results      
+      - name: Upload Comparison Reports as artifacts
         uses: actions/upload-artifact@v4
         with:
            name: diffreports
