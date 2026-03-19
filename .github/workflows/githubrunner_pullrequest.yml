@@ -16,6 +16,9 @@ permissions:
   contents: read
   pages: write
 
+env:
+  PRODUCT_LIST: MATLAB Simulink Stateflow
+
 jobs:
   my-job:
     name: Diff to Ancestor, Publish and attach Report
