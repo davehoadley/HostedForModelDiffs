@@ -1,0 +1,45 @@
+name: PullRequest GitHub Runner - Diff to Ancestor, Publish and attach Report
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on pull request events but only for the main branch
+
+  pull_request:
+    branches: [main]
+    types:
+      - opened
+      - edited
+      - reopened
+  
+  permissions: 
+    pull-requests: write
+    contents: read
+
+jobs:
+  my-job:
+    name: Diff to Ancestor, Publish and attach Report
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+         fetch-depth: 0
+      - name: Set up MATLAB
+        uses: matlab-actions/setup-matlab@v2
+      - name: Start display server
+        run: |
+         sudo apt-get install -y xvfb
+         Xvfb :99 &
+         export DISPLAY=:99
+         echo "DISPLAY=:99" >> $GITHUB_ENV
+      - name: Compare Models to Ancestors
+        uses: matlab-actions/run-command@v1
+        with:
+          command: branch ="${{ github.head_ref }}", diffGitHub_pullrequest(branch)
+      - name: Upload Comparison Reports
+        uses: actions/upload-artifact@v4
+        with:
+           name: diffreports
+           path: ${{ github.workspace }}/*.html
+
+#   Copyright 2022-2026 The MathWorks, Inc.
