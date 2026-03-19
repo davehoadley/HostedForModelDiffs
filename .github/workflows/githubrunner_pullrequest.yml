@@ -57,7 +57,7 @@ jobs:
       - name: Upload pages
         uses: actions/upload-pages-artifact@v4
         with:
-          path: diffreports # Upload results      
+          path: ${{ github.workspace }}/*.html # Upload results      
       # Publish reports to GitHub Pages so they can be viewed in a browser
       - name: Deploy to GitHub Pages
         id: deployment
