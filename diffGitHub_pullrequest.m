@@ -26,9 +26,11 @@ function diffGitHub_pullrequest(branchname)
     tempdir = fullfile(proj.RootFolder, "modelscopy");
     mkdir(tempdir)
     
+    reportdir = fullfile(proj.RootFolder, "diffreports");
+    mkdir(reportdir);
     % Generate a comparison report for every modified model file
     for i = 1:numel(modifiedFiles)
-        diffToAncestor(tempdir,string(modifiedFiles(i)));
+        diffToAncestor(tempdir,string(modifiedFiles(i)),reportdir);
     end
     
     % Delete the temporary folder
@@ -37,7 +39,7 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function report = diffToAncestor(tempdir,fileName)
+function report = diffToAncestor(tempdir,fileName,reportdir)
     ancestor = getAncestor(tempdir,fileName);
     if isempty(ancestor)
         % new model - skip diff report
@@ -49,7 +51,9 @@ function report = diffToAncestor(tempdir,fileName)
     % Specify the format using 'pdf', 'html', or 'docx'
     comp= visdiff(ancestor, fileName);
     filter(comp, 'unfiltered');
+    before = cd(reportdir);
     report = publish(comp,'html');
+    cd(before);
     
 end
 
