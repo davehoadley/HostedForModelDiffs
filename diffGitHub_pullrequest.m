@@ -42,7 +42,7 @@ function diffGitHub_pullrequest(branchname)
         "    <title>MATLAB Diff Reports</title>"
         "  </head>"
         "  <body>"
-        "    <h1>Diff Reports</h1>"
+        "    <h1>MATLAB Diff Reports</h1>"
         "    <ul>"];
 
     for idx = 1:numel(reportOut)
