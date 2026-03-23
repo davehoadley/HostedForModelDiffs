@@ -47,7 +47,7 @@ function diffGitHub_pullrequest(branchname)
 
     for idx = 1:numel(reportOut)
         [~, reportName] = fileparts(reportOut(idx));
-        html(end+1) = "      <li><a href=""" + reportOut + """>" + reportName + "</a></li>";
+        html(end+1) = "      <li><a href=""" + reportName + ".html"">" + reportName + "</a></li>";
     end
 
     html(end+1) = "    </ul>";
