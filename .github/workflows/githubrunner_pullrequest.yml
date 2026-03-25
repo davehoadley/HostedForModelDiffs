@@ -10,7 +10,7 @@ permissions:
   pull-requests: write
 
 env:
-  PRODUCT_LIST: MATLAB Simulink Stateflow MATLAB_Coder Simulink_Coder Embedded_Coder
+  PRODUCT_LIST: MATLAB Simulink Stateflow MATLAB_Coder Simulink_Coder Embedded_Coder CI/CD_Automation_for_Simulink_Check
 
 concurrency:
   group: pr-preview-${{ github.event.pull_request.number }}
