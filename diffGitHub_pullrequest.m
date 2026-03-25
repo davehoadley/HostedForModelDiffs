@@ -26,10 +26,35 @@ function diffGitHub_pullrequest(branchname)
     tempdir = fullfile(proj.RootFolder, "modelscopy");
     mkdir(tempdir)
     
+    reportdir = fullfile(proj.RootFolder, "diffreports");
+    mkdir(reportdir);
     % Generate a comparison report for every modified model file
     for i = 1:numel(modifiedFiles)
-        diffToAncestor(tempdir,string(modifiedFiles(i)));
+        reportOut(i) = string(diffToAncestor(tempdir,string(modifiedFiles(i)),reportdir));
     end
+
+    % generate summary index.html
+    
+    html = ["<!DOCTYPE html>"
+        "<html>"
+        "  <head>"
+        "    <meta charset=""UTF-8"" />"
+        "    <title>MATLAB Diff Reports</title>"
+        "  </head>"
+        "  <body>"
+        "    <h1>MATLAB Diff Reports</h1>"
+        "    <ul>"];
+
+    for idx = 1:numel(reportOut)
+        [~, reportName] = fileparts(reportOut(idx));
+        html(end+1) = "      <li><a href=""" + reportName + ".html"">" + reportName + "</a></li>";
+    end
+
+    html(end+1) = "    </ul>";
+    html(end+1) = "  </body>";
+    html(end+1) = "</html>";
+
+    writelines(html,fullfile(reportdir,'index.html'),'Encoding','UTF-8');
     
     % Delete the temporary folder
     rmdir modelscopy s
@@ -37,7 +62,7 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function report = diffToAncestor(tempdir,fileName)
+function report = diffToAncestor(tempdir,fileName,reportdir)
     ancestor = getAncestor(tempdir,fileName);
     if isempty(ancestor)
         % new model - skip diff report
@@ -49,7 +74,9 @@ function report = diffToAncestor(tempdir,fileName)
     % Specify the format using 'pdf', 'html', or 'docx'
     comp= visdiff(ancestor, fileName);
     filter(comp, 'unfiltered');
+    before = cd(reportdir);
     report = publish(comp,'html');
+    cd(before);
     
 end
 
